@@ -1,7 +1,7 @@
 # Quantile Aggregator Plugin
 
-The quantile aggregator plugin aggregates specified quantiles for each numeric field
-per metric it sees and emits the quantiles every `period`.
+The quantile aggregator plugin aggregates specified quantiles for each numeric
+field per metric it sees and emits the quantiles every `period`.
 
 ## Configuration
 
@@ -38,34 +38,34 @@ per metric it sees and emits the quantiles every `period`.
 
 ### t-digest
 
-Proposed by [Dunning & Ertl (2019)][tdigest_paper] this type uses a
-special data-structure to cluster data. These clusters are later used
-to approximate the requested quantiles. The bounds of the approximation
-can be controlled by the `compression` setting where smaller values
-result in higher performance but less accuracy.
+Proposed by [Dunning & Ertl (2019)][tdigest_paper] this type uses a special
+data-structure to cluster data. These clusters are later used to approximate the
+requested quantiles. The bounds of the approximation can be controlled by the
+`compression` setting where smaller values result in higher performance but less
+accuracy.
 
-Due to its incremental nature, this algorithm can handle large
-numbers of samples efficiently.  It is recommended for applications
-where exact quantile calculation isn't required.
+Due to its incremental nature, this algorithm can handle large numbers of
+samples efficiently.  It is recommended for applications where exact quantile
+calculation isn't required.
 
 For implementation details see the underlying [golang library][tdigest_lib].
 
 ### exact R7 and R8
 
-These algorithms compute quantiles as described in [Hyndman & Fan (1996)][hyndman_fan].
-The R7 variant is used in Excel and NumPy.  The R8 variant is recommended
-by Hyndman & Fan due to its independence of the underlying sample distribution.
+These algorithms compute quantiles as described in [Hyndman & Fan
+(1996)][hyndman_fan].  The R7 variant is used in Excel and NumPy.  The R8
+variant is recommended by Hyndman & Fan due to its independence of the
+underlying sample distribution.
 
-These algorithms save all data for the aggregation `period`.  They require
-a lot of memory when used with a large number of series or a
-large number of samples. They are slower than the `t-digest`
-algorithm and are recommended only to be used with a small number of samples and series.
+These algorithms save all data for the aggregation `period`.  They require a lot
+of memory when used with a large number of series or a large number of
+samples. They are slower than the `t-digest` algorithm and are recommended only
+to be used with a small number of samples and series.
 
 ## Benchmark (linux/amd64)
 
-The benchmark was performed by adding 100 metrics with six numeric
-(and two non-numeric) fields to the aggregator and the derive the aggregation
-result.
+The benchmark was performed by adding 100 metrics with six numeric (and two
+non-numeric) fields to the aggregator and the derive the aggregation result.
 
 | algorithm  | # quantiles   | avg. runtime  |
 | :------------ | -------------:| -------------:|
@@ -108,8 +108,9 @@ and the default setting for `quantiles` you get the following *output*
   - maximum_response_ms_050 (float64)
   - maximum_response_ms_075 (float64)
 
-The `status` and `ok` fields are dropped because they are not numeric.  Note that the
-number of resulting fields scales with the number of `quantiles` specified.
+The `status` and `ok` fields are dropped because they are not numeric.  Note
+that the number of resulting fields scales with the number of `quantiles`
+specified.
 
 ### Tags
 
@@ -126,9 +127,13 @@ cpu,cpu=cpu-total,host=Hugin usage_guest_nice_075=0,usage_user_050=10.8148517318
 
 ## References
 
-- Dunning & Ertl: "Computing Extremely Accurate Quantiles Using t-Digests", arXiv:1902.04023 (2019)  [pdf][tdigest_paper]
-- Hyndman & Fan: "Sample Quantiles in Statistical Packages", The American Statistician, vol. 50, pp. 361-365 (1996) [pdf][hyndman_fan]
+- Dunning & Ertl: "Computing Extremely Accurate Quantiles Using t-Digests",
+  arXiv:1902.04023 (2019) [pdf][tdigest_paper]
+- Hyndman & Fan: "Sample Quantiles in Statistical Packages", The American
+  Statistician, vol. 50, pp. 361-365 (1996) [pdf][hyndman_fan]
 
 [tdigest_paper]: https://arxiv.org/abs/1902.04023
-[tdigest_lib]:   https://github.com/caio/go-tdigest
-[hyndman_fan]:   http://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Misc/Sample%20Quantiles%20in%20Statistical%20Packages.pdf
+
+[tdigest_lib]: https://github.com/caio/go-tdigest
+
+[hyndman_fan]: http://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Misc/Sample%20Quantiles%20in%20Statistical%20Packages.pdf

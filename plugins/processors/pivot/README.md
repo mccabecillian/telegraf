@@ -1,12 +1,11 @@
-# Pivot Processor
+# Pivot Processor Plugin
 
 You can use the `pivot` processor to rotate single valued metrics into a multi
-field metric.  This transformation often results in data that is more easily
-to apply mathematical operators and comparisons between, and flatten into a
-more compact representation for write operations with some output data
-formats.
+field metric.  This transformation often results in data that is more easily to
+apply mathematical operators and comparisons between, and flatten into a more
+compact representation for write operations with some output data formats.
 
-To perform the reverse operation use the [unpivot] processor.
+To perform the reverse operation use the [unpivot][] processor.
 
 ## Configuration
 
@@ -28,4 +27,4 @@ To perform the reverse operation use the [unpivot] processor.
 + cpu,cpu=cpu0 time_user=43i
 ```
 
-[unpivot]: /plugins/processors/unpivot/README.md
+[unpivot]: ../unpivot/README.md

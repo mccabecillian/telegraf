@@ -4,25 +4,30 @@ The histogram aggregator plugin creates histograms containing the counts of
 field values within a range.
 
 If `cumulative` is set to true, values added to a bucket are also added to the
-larger buckets in the distribution. This creates a [cumulative histogram](https://en.wikipedia.org/wiki/Histogram#/media/File:Cumulative_vs_normal_histogram.svg).
-Otherwise, values are added to only one bucket, which creates an [ordinary histogram](https://en.wikipedia.org/wiki/Histogram#/media/File:Cumulative_vs_normal_histogram.svg)
+larger buckets in the distribution. This creates a [cumulative
+histogram][wiki-hist].  Otherwise, values are added to only one bucket, which
+creates an [ordinary histogram][wiki-hist].
 
 Like other Telegraf aggregators, the metric is emitted every `period` seconds.
 By default bucket counts are not reset between periods and will be non-strictly
-increasing while Telegraf is running. This behavior can be changed by setting the
-`reset` parameter to true.
+increasing while Telegraf is running. This behavior can be changed by setting
+the `reset` parameter to true.
+
+[wiki-hist]: https://en.wikipedia.org/wiki/Histogram#/media/File:Cumulative_vs_normal_histogram.svg
 
 ## Design
 
-Each metric is passed to the aggregator and this aggregator searches
-histogram buckets for those fields, which have been specified in the
-config. If buckets are found, the aggregator will increment +1 to the appropriate
+Each metric is passed to the aggregator and this aggregator searches histogram
+buckets for those fields, which have been specified in the config. If buckets
+are found, the aggregator will increment +1 to the appropriate
 bucket. Otherwise, it will be added to the `+Inf` bucket.  Every `period`
 seconds this data will be forwarded to the outputs.
 
-The algorithm of hit counting to buckets was implemented on the base
-of the algorithm which is implemented in the Prometheus
-[client](https://github.com/prometheus/client_golang/blob/master/prometheus/histogram.go).
+The algorithm of hit counting to buckets was implemented on the base of the
+algorithm which is implemented in the Prometheus
+[client][prom-hist].
+
+[prom-hist]: https://github.com/prometheus/client_golang/blob/master/prometheus/histogram.go
 
 ## Configuration
 
@@ -69,17 +74,18 @@ of the algorithm which is implemented in the Prometheus
   #   fields = ["io_time", "read_time", "write_time"]
 ```
 
-The user is responsible for defining the bounds of the histogram bucket as
-well as the measurement name and fields to aggregate.
+The user is responsible for defining the bounds of the histogram bucket as well
+as the measurement name and fields to aggregate.
 
 Each histogram config section must contain a `buckets` and `measurement_name`
 option.  Optionally, if `fields` is set only the fields listed will be
 aggregated.  If `fields` is not set all fields are aggregated.
 
 The `buckets` option contains a list of floats which specify the bucket
-boundaries.  Each float value defines the inclusive upper (right) bound of the bucket.
-The `+Inf` bucket is added automatically and does not need to be defined.
-(For left boundaries, these specified bucket borders and `-Inf` will be used).
+boundaries.  Each float value defines the inclusive upper (right) bound of the
+bucket.  The `+Inf` bucket is added automatically and does not need to be
+defined.  (For left boundaries, these specified bucket borders and `-Inf` will
+be used).
 
 ## Measurements & Fields
 
@@ -95,16 +101,16 @@ The postfix `bucket` will be added to each field key.
   - `le`: Right bucket border. It means that the metric value is less than or
     equal to the value of this tag. If a metric value is sorted into a bucket,
     it is also sorted into all larger buckets. As a result, the value of
-    `<field>_bucket` is rising with rising `le` value. When `le` is `+Inf`,
-    the bucket value is the count of all metrics, because all metric values are
-    less than or equal to positive infinity.
+    `<field>_bucket` is rising with rising `le` value. When `le` is `+Inf`, the
+    bucket value is the count of all metrics, because all metric values are less
+    than or equal to positive infinity.
 - `cumulative = false`:
   - `gt`: Left bucket border. It means that the metric value is greater than
     (and not equal to) the value of this tag.
   - `le`: Right bucket border. It means that the metric value is less than or
     equal to the value of this tag.
-  - As both `gt` and `le` are present, each metric is sorted in only exactly
-    one bucket.
+  - As both `gt` and `le` are present, each metric is sorted in only exactly one
+    bucket.
 
 ## Example Output
 

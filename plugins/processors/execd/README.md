@@ -1,9 +1,9 @@
 # Execd Processor Plugin
 
 The `execd` processor plugin runs an external program as a separate process and
-pipes metrics in to the process's STDIN and reads processed metrics from its STDOUT.
-The programs must accept influx line protocol on standard in (STDIN) and output
-metrics in influx line protocol to standard output (STDOUT).
+pipes metrics in to the process's STDIN and reads processed metrics from its
+STDOUT.  The programs must accept influx line protocol on standard in (STDIN)
+and output metrics in influx line protocol to standard output (STDOUT).
 
 Program output on standard error is mirrored to the telegraf log.
 
@@ -11,10 +11,10 @@ Telegraf minimum version: Telegraf 1.15.0
 
 ## Caveats
 
-- Metrics with tracking will be considered "delivered" as soon as they are passed
-  to the external process. There is currently no way to match up which metric
-  coming out of the execd process relates to which metric going in (keep in mind
-  that processors can add and drop metrics, and that this is all done
+- Metrics with tracking will be considered "delivered" as soon as they are
+  passed to the external process. There is currently no way to match up which
+  metric coming out of the execd process relates to which metric going in (keep
+  in mind that processors can add and drop metrics, and that this is all done
   asynchronously).
 - it's not currently possible to use a data_format other than "influx", due to
   the requirement that it is serialize-parse symmetrical and does not lose any
@@ -44,8 +44,8 @@ Telegraf minimum version: Telegraf 1.15.0
 
 ### Go daemon example
 
-This go daemon reads a metric from stdin, multiplies the "count" field by 2,
-and writes the metric back out.
+This go daemon reads a metric from stdin, multiplies the "count" field by 2, and
+writes the metric back out.
 
 ```go
 package main
@@ -103,7 +103,8 @@ func main() {
 }
 ```
 
-to run it, you'd build the binary using go, eg `go build -o multiplier.exe main.go`
+To run it, you'd build the binary using go, eg `go build -o multiplier.exe
+main.go`
 
 ```toml
 [[processors.execd]]
@@ -112,7 +113,8 @@ to run it, you'd build the binary using go, eg `go build -o multiplier.exe main.
 
 ### Ruby daemon
 
-- See [Ruby daemon](./examples/multiplier_line_protocol/multiplier_line_protocol.rb)
+- See [Ruby
+  daemon](./examples/multiplier_line_protocol/multiplier_line_protocol.rb)
 
 ```toml
 [[processors.execd]]

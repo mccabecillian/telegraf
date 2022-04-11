@@ -1,27 +1,32 @@
 # TopK Processor Plugin
 
-The TopK processor plugin is a filter designed to get the top series over a period of time. It can be tweaked to calculate the top metrics via different aggregation functions.
+The TopK processor plugin is a filter designed to get the top series over a
+period of time. It can be tweaked to calculate the top metrics via different
+aggregation functions.
 
 This processor goes through these steps when processing a batch of metrics:
 
 1. Groups measurements in buckets based on their tags and name
-2. Every N seconds, for each bucket, for each selected field: aggregate all the measurements using a given aggregation function (min, sum, mean, etc) and the field.
-3. For each computed aggregation: order the buckets by the aggregation, then returns all measurements in the top `K` buckets
+2. Every N seconds, for each bucket, for each selected field: aggregate all the
+   measurements using a given aggregation function (min, sum, mean, etc) and the
+   field.
+3. For each computed aggregation: order the buckets by the aggregation, then
+   returns all measurements in the top `K` buckets
 
 Notes:
 
 * The deduplicates metrics
 * The name of the measurement is always used when grouping it
-* Depending on the amount of metrics on each  bucket, more than `K` series may be returned
-* If a measurement does not have one of the selected fields, it is dropped from the aggregation
+* Depending on the amount of metrics on each bucket, more than `K` series may be
+  returned
+* If a measurement does not have one of the selected fields, it is dropped from
+  the aggregation
 
 ## Configuration
 
 ```toml @sample.conf
 # Print all metrics that pass through this filter.
-[[processors.topk]]
-  ## How many seconds between aggregations
-  # period = 10
+[[processors.topk]] ## How many seconds between aggregations # period = 10
 
   ## How many top buckets to return per field
   ## Every field specified to aggregate over will return k number of results.
@@ -77,11 +82,14 @@ Notes:
 
 ### Tags
 
-This processor does not add tags by default. But the setting `add_groupby_tag` will add a tag if set to anything other than ""
+This processor does not add tags by default. But the setting `add_groupby_tag`
+will add a tag if set to anything other than ""
 
 ### Fields
 
-This processor does not add fields by default. But the settings `add_rank_fields` and `add_aggregation_fields` will add one or several fields if set to anything other than ""
+This processor does not add fields by default. But the settings
+`add_rank_fields` and `add_aggregation_fields` will add one or several fields if
+set to anything other than ""
 
 ### Example
 

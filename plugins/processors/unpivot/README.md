@@ -1,8 +1,10 @@
-# Unpivot Processor
+# Unpivot Processor Plugin
 
-You can use the `unpivot` processor to rotate a multi field series into single valued metrics.  This transformation often results in data that is more easy to aggregate across fields.
+You can use the `unpivot` processor to rotate a multi field series into single
+valued metrics.  This transformation often results in data that is more easy to
+aggregate across fields.
 
-To perform the reverse operation use the [pivot] processor.
+To perform the reverse operation use the [pivot][] processor.
 
 ## Configuration
 
@@ -23,4 +25,4 @@ To perform the reverse operation use the [pivot] processor.
 + cpu,cpu=cpu0,name=time_user value=43i
 ```
 
-[pivot]: /plugins/processors/pivot/README.md
+[pivot]: ../pivot/README.md

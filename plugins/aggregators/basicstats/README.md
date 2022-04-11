@@ -1,7 +1,8 @@
 # BasicStats Aggregator Plugin
 
-The BasicStats aggregator plugin give us count,diff,max,min,mean,non_negative_diff,sum,s2(variance), stdev for a set of values,
-emitting the aggregate every `period` seconds.
+The BasicStats aggregator plugin give us count, diff, max, min, mean,
+non_negative_diff, sum, s2(variance), stdev for a set of values, emitting the
+aggregate every `period` seconds.
 
 ## Configuration
 
@@ -20,7 +21,9 @@ emitting the aggregate every `period` seconds.
 ```
 
 - stats
-  - If not specified, then `count`, `min`, `max`, `mean`, `stdev`, and `s2` are aggregated and pushed as fields.  `sum`, `diff` and `non_negative_diff` are not aggregated by default to maintain backwards compatibility.
+  - If not specified, then `count`, `min`, `max`, `mean`, `stdev`, and `s2` are
+    aggregated and pushed as fields.  `sum`, `diff` and `non_negative_diff` are
+    not aggregated by default to maintain backwards compatibility.
   - If empty array, no stats are aggregated
 
 ## Measurements & Fields

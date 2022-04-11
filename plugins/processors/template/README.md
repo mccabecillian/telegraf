@@ -1,9 +1,9 @@
-# Template Processor
+# Template Processor Plugin
 
-The `template` processor applies a Go template to metrics to generate a new
-tag.  The primary use case of this plugin is to create a tag that can be used
-for dynamic routing to multiple output plugins or using an output specific
-routing option.
+The `template` processor applies a Go template to metrics to generate a new tag.
+The primary use case of this plugin is to create a tag that can be used for
+dynamic routing to multiple output plugins or using an output specific routing
+option.
 
 The template has access to each metric's measurement name, tags, fields, and
 timestamp using the [interface in `/template_metric.go`](template_metric.go).
@@ -62,7 +62,9 @@ Read the full [Go Template Documentation][].
 
 ### Add all fields as a tag
 
-Sometimes it is usefull to pass all fields with their values into a single message for sending it to a monitoring system (e.g. Syslog, GroundWork), then you can use `.FieldList` or `.TagList`:
+Sometimes it is usefull to pass all fields with their values into a single
+message for sending it to a monitoring system (e.g. Syslog, GroundWork), then
+you can use `.FieldList` or `.TagList`:
 
 ```toml
 [[processors.template]]
