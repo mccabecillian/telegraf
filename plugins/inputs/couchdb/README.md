@@ -16,7 +16,7 @@ The CouchDB plugin gathers metrics of CouchDB using [_stats] endpoint.
   # basic_password = "p@ssw0rd"
 ```
 
-## Measurements & Fields
+## Metrics
 
 Statistics specific to the internals of CouchDB:
 
@@ -61,11 +61,11 @@ httpd statistics:
 - httpd_bulk_requests
 - httpd_view_reads
 
-## Tags
+### Tags
 
 - server (url of the couchdb _stats endpoint)
 
-## Example
+## Example Output
 
 ### Post Couchdb 2.0
 

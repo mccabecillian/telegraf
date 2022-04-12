@@ -1,22 +1,23 @@
 # DC/OS Input Plugin
 
-This input plugin gathers metrics from a DC/OS cluster's [metrics component](https://docs.mesosphere.com/1.10/metrics/).
+This input plugin gathers metrics from a DC/OS cluster's [metrics
+component](https://docs.mesosphere.com/1.10/metrics/).
 
 ## Series Cardinality Warning
 
-Depending on the work load of your DC/OS cluster, this plugin can quickly
-create a high number of series which, when unchecked, can cause high load on
-your database.
+Depending on the work load of your DC/OS cluster, this plugin can quickly create
+a high number of series which, when unchecked, can cause high load on your
+database.
 
-- Use the
-  [measurement filtering](https://docs.influxdata.com/telegraf/latest/administration/configuration/#measurement-filtering)
+- Use the [measurement
+  filtering](https://docs.influxdata.com/telegraf/latest/administration/configuration/#measurement-filtering)
   options to exclude unneeded tags.
-- Write to a database with an appropriate
-  [retention policy](https://docs.influxdata.com/influxdb/latest/guides/downsampling_and_retention/).
-- Consider using the
-  [Time Series Index](https://docs.influxdata.com/influxdb/latest/concepts/time-series-index/).
-- Monitor your databases
-  [series cardinality](https://docs.influxdata.com/influxdb/latest/query_language/spec/#show-cardinality).
+- Write to a database with an appropriate [retention
+  policy](https://docs.influxdata.com/influxdb/latest/guides/downsampling_and_retention/).
+- Consider using the [Time Series
+  Index](https://docs.influxdata.com/influxdb/latest/concepts/time-series-index/).
+- Monitor your databases [series
+  cardinality](https://docs.influxdata.com/influxdb/latest/query_language/spec/#show-cardinality).
 
 ## Configuration
 
@@ -77,7 +78,8 @@ dcos:adminrouter:ops:system-metrics full
 dcos:adminrouter:ops:mesos full
 ```
 
-Follow the directions to [create a service account and assign permissions](https://docs.mesosphere.com/1.10/security/service-auth/custom-service-auth/).
+Follow the directions to [create a service account and assign
+permissions][create].
 
 Quick configuration using the Enterprise CLI:
 
@@ -88,34 +90,40 @@ dcos security org users grant telegraf dcos:adminrouter:ops:system-metrics full
 dcos security org users grant telegraf dcos:adminrouter:ops:mesos full
 ```
 
+[create]: https://docs.mesosphere.com/1.10/security/service-auth/custom-service-auth/
+
 ### Open Source Authentication
 
-The Open Source DC/OS does not provide service accounts.  Instead you can use
-of the following options:
+The Open Source DC/OS does not provide service accounts.  Instead you can use of
+the following options:
 
-1. [Disable authentication](https://dcos.io/docs/1.10/security/managing-authentication/#authentication-opt-out)
+1. [Disable
+   authentication](https://dcos.io/docs/1.10/security/managing-authentication/#authentication-opt-out)
 2. Use the `token_file` parameter to read a authentication token from a file.
 
-Then `token_file` can be set by using the [dcos cli] to login periodically.
-The cli can login for at most XXX days, you will need to ensure the cli
-performs a new login before this time expires.
+Then `token_file` can be set by using the [dcos cli] to login periodically.  The
+cli can login for at most XXX days, you will need to ensure the cli performs a
+new login before this time expires.
 
 ```shell
 dcos auth login --username foo --password bar
 dcos config show core.dcos_acs_token > ~/.dcos/token
 ```
 
-Another option to create a `token_file` is to generate a token using the
-cluster secret.  This will allow you to set the expiration date manually or
-even create a never expiring token.  However, if the cluster secret or the
-token is compromised it cannot be revoked and may require a full reinstall of
-the cluster.  For more information on this technique reference
-[this blog post](https://medium.com/@richardgirges/authenticating-open-source-dc-os-with-third-party-services-125fa33a5add).
+Another option to create a `token_file` is to generate a token using the cluster
+secret.  This will allow you to set the expiration date manually or even create
+a never expiring token.  However, if the cluster secret or the token is
+compromised it cannot be revoked and may require a full reinstall of the
+cluster.  For more information on this technique reference [this blog
+post][token-blog].
+
+[token-blog]: https://medium.com/@richardgirges/authenticating-open-source-dc-os-with-third-party-services-125fa33a5add
 
 ## Metrics
 
-Please consult the [Metrics Reference](https://docs.mesosphere.com/1.10/metrics/reference/)
-for details about field interpretation.
+Please consult the [Metrics
+Reference](https://docs.mesosphere.com/1.10/metrics/reference/) for details
+about field interpretation.
 
 - dcos_node
   - tags:
@@ -190,7 +198,7 @@ for details about field interpretation.
   - fields:
     - fields are application specific
 
-## Example
+## Example Output
 
 ```shell
 dcos_node,cluster=enterprise,hostname=192.168.122.18,path=/boot filesystem_capacity_free_bytes=918188032i,filesystem_capacity_total_bytes=1063256064i,filesystem_capacity_used_bytes=145068032i,filesystem_inode_free=523958,filesystem_inode_total=524288,filesystem_inode_used=330 1511859222000000000

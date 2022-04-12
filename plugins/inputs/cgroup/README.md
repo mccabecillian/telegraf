@@ -34,7 +34,7 @@ KEY0 ... VAL0\n
 KEY1 ... VAL1\n
 ```
 
-## Tags
+## Metrics
 
 All measurements have the `path` tag.
 

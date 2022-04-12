@@ -56,6 +56,7 @@ cache_readaheads
 Using this configuration:
 
 ```toml @sample.conf
+```toml
 # Read metrics of bcache from stats_total and dirty_data
 [[inputs.bcache]]
   ## Bcache sets path
@@ -68,13 +69,11 @@ Using this configuration:
   bcacheDevs = ["bcache0"]
 ```
 
-When run with:
+## Example Output
 
 ```shell
 ./telegraf --config telegraf.conf --input-filter bcache --test
 ```
-
-It produces:
 
 ```shell
 * Plugin: bcache, Collection 1

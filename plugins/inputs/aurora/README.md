@@ -1,8 +1,13 @@
 # Aurora Input Plugin
 
-The Aurora Input Plugin gathers metrics from [Apache Aurora](https://aurora.apache.org/) schedulers.
+The Aurora Input Plugin gathers metrics from [Apache Aurora][www] schedulers.
 
-For monitoring recommendations reference [Monitoring your Aurora cluster](https://aurora.apache.org/documentation/latest/operations/monitoring/)
+For monitoring recommendations reference [Monitoring your Aurora
+cluster][monitor].
+
+[www]: https://aurora.apache.org/
+
+[monitor]: https://aurora.apache.org/documentation/latest/operations/monitoring/
 
 ## Configuration
 
