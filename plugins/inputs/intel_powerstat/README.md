@@ -1,10 +1,13 @@
 # Intel PowerStat Input Plugin
 
-This input plugin monitors power statistics on Intel-based platforms and assumes presence of Linux based OS.
+This input plugin monitors power statistics on Intel-based platforms and assumes
+presence of Linux based OS.
 
-Main use cases are power saving and workload migration. Telemetry frameworks allow users to monitor critical platform level metrics.
-Key source of platform telemetry is power domain that is beneficial for MANO/Monitoring&Analytics systems
-to take preventive/corrective actions based on platform busyness, CPU temperature, actual CPU utilization and power statistics.
+Main use cases are power saving and workload migration. Telemetry frameworks
+allow users to monitor critical platform level metrics.  Key source of platform
+telemetry is power domain that is beneficial for MANO/Monitoring&Analytics
+systems to take preventive/corrective actions based on platform busyness, CPU
+temperature, actual CPU utilization and power statistics.
 
 ## Configuration
 
@@ -29,7 +32,8 @@ to take preventive/corrective actions based on platform busyness, CPU temperatur
 
 ## Example: Configuration with no per-CPU telemetry
 
-This configuration allows getting default processor package specific metrics, no per-CPU metrics are collected:
+This configuration allows getting default processor package specific metrics, no
+per-CPU metrics are collected:
 
 ```toml
 [[inputs.intel_powerstat]]
@@ -38,7 +42,8 @@ This configuration allows getting default processor package specific metrics, no
 
 ## Example: Configuration with no per-CPU telemetry - equivalent case
 
-This configuration allows getting default processor package specific metrics, no per-CPU metrics are collected:
+This configuration allows getting default processor package specific metrics, no
+per-CPU metrics are collected:
 
 ```toml
 [[inputs.intel_powerstat]]
@@ -46,7 +51,8 @@ This configuration allows getting default processor package specific metrics, no
 
 ## Example: Configuration for CPU Temperature and CPU Frequency
 
-This configuration allows getting default processor package specific metrics, plus subset of per-CPU metrics (CPU Temperature and CPU Frequency):
+This configuration allows getting default processor package specific metrics,
+plus subset of per-CPU metrics (CPU Temperature and CPU Frequency):
 
 ```toml
 [[inputs.intel_powerstat]]
@@ -55,7 +61,8 @@ This configuration allows getting default processor package specific metrics, pl
 
 ## Example: Configuration for CPU Temperature and CPU Frequency without default package metrics
 
-This configuration allows getting only a subset of per-CPU metrics (CPU Temperature and CPU Frequency):
+This configuration allows getting only a subset of per-CPU metrics (CPU
+Temperature and CPU Frequency):
 
 ```toml
 [[inputs.intel_powerstat]]
@@ -65,7 +72,8 @@ This configuration allows getting only a subset of per-CPU metrics (CPU Temperat
 
 ## Example: Configuration with all available metrics
 
-This configuration allows getting all processor package specific metrics and all per-CPU metrics:
+This configuration allows getting all processor package specific metrics and all
+per-CPU metrics:
 
 ```toml
 [[inputs.intel_powerstat]]
@@ -75,8 +83,9 @@ This configuration allows getting all processor package specific metrics and all
 
 ## SW Dependencies
 
-Plugin is based on Linux Kernel modules that expose specific metrics over `sysfs` or `devfs` interfaces.
-The following dependencies are expected by plugin:
+Plugin is based on Linux Kernel modules that expose specific metrics over
+`sysfs` or `devfs` interfaces.  The following dependencies are expected by
+plugin:
 
 - _intel-rapl_ module which exposes Intel Runtime Power Limiting metrics over `sysfs` (`/sys/devices/virtual/powercap/intel-rapl`),
 - _msr_ kernel module that provides access to processor model specific registers over `devfs` (`/dev/cpu/cpu%d/msr`),
@@ -84,8 +93,9 @@ The following dependencies are expected by plugin:
 
 Minimum kernel version required is 3.13 to satisfy all requirements.
 
-Please make sure that kernel modules are loaded and running (cpufreq is integrated in kernel). Modules might have to be manually enabled by using `modprobe`.
-Depending on the kernel version, run commands:
+Please make sure that kernel modules are loaded and running (cpufreq is
+integrated in kernel). Modules might have to be manually enabled by using
+`modprobe`.  Depending on the kernel version, run commands:
 
 ```sh
 # kernel 5.x.x:
@@ -99,8 +109,9 @@ sudo modprobe msr
 sudo modprobe intel_rapl
 ```
 
-**Telegraf with Intel PowerStat plugin enabled may require root access to read model specific registers (MSRs)**
-to retrieve data for calculation of most critical per-CPU specific metrics:
+**Telegraf with Intel PowerStat plugin enabled may require root access to read
+model specific registers (MSRs)** to retrieve data for calculation of most
+critical per-CPU specific metrics:
 
 - `cpu_busy_frequency_mhz`
 - `cpu_temperature_celsius`
@@ -112,16 +123,18 @@ and to retrieve data for calculation per-package specific metric:
 
 - `max_turbo_frequency_mhz`
 
-To expose other Intel PowerStat metrics root access may or may not be required (depending on OS type or configuration).
+To expose other Intel PowerStat metrics root access may or may not be required
+(depending on OS type or configuration).
 
 ## HW Dependencies
 
-Specific metrics require certain processor features to be present, otherwise Intel PowerStat plugin won't be able to
-read them. When using Linux Kernel based OS, user can detect supported processor features reading `/proc/cpuinfo` file.
+Specific metrics require certain processor features to be present, otherwise
+Intel PowerStat plugin won't be able to read them. When using Linux Kernel based
+OS, user can detect supported processor features reading `/proc/cpuinfo` file.
 Plugin assumes crucial properties are the same for all CPU cores in the system.
 The following processor properties are examined in more detail in this section:
-processor _cpu family_, _model_ and _flags_.
-The following processor properties are required by the plugin:
+processor _cpu family_, _model_ and _flags_.  The following processor properties
+are required by the plugin:
 
 - Processor _cpu family_ must be Intel (0x6) - since data used by the plugin assumes Intel specific
 model specific registers for all features
@@ -186,9 +199,11 @@ and _powerstat\_core.cpu\_c6\_state\_residency_ metrics:
 
 ## Metrics
 
-All metrics collected by Intel PowerStat plugin are collected in fixed intervals.
-Metrics that reports processor C-state residency or power are calculated over elapsed intervals.
-When starting to measure metrics, plugin skips first iteration of metrics if they are based on deltas with previous value.
+All metrics collected by Intel PowerStat plugin are collected in fixed
+intervals.  Metrics that reports processor C-state residency or power are
+calculated over elapsed intervals.  When starting to measure metrics, plugin
+skips first iteration of metrics if they are based on deltas with previous
+value.
 
 **The following measurements are supported by Intel PowerStat plugin:**
 
@@ -239,18 +254,22 @@ When starting to measure metrics, plugin skips first iteration of metrics if the
 
 ### Known issues
 
-From linux kernel version v5.4.77 with [this kernel change](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=v5.4.77&id=19f6d91bdad42200aac557a683c17b1f65ee6c94)
-resources like `/sys/class/powercap/intel-rapl*/*/energy_uj` are readable only by root for security reasons, so this plugin needs root privileges to work properly.
+From linux kernel version v5.4.77 with [this kernel change][19f6d91b] resources
+like `/sys/class/powercap/intel-rapl*/*/energy_uj` are readable only by root for
+security reasons, so this plugin needs root privileges to work properly.
 
-If such strict security restrictions are not relevant, reading permissions to files in `/sys/devices/virtual/powercap/intel-rapl/`
-directory can be manually changed for example with `chmod` command with custom parameters.
-For example to give all users permission to all files in `intel-rapl` directory:
+If such strict security restrictions are not relevant, reading permissions to
+files in `/sys/devices/virtual/powercap/intel-rapl/` directory can be manually
+changed for example with `chmod` command with custom parameters.  For example to
+give all users permission to all files in `intel-rapl` directory:
 
 ```bash
 sudo chmod -R a+rx /sys/devices/virtual/powercap/intel-rapl/
 ```
 
-### Example Output
+[19f6d91b]: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=v5.4.77&id=19f6d91bdad42200aac557a683c17b1f65ee6c94
+
+## Example Output
 
 ```shell
 powerstat_package,host=ubuntu,package_id=0 thermal_design_power_watts=160 1606494744000000000
