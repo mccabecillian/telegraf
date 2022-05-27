@@ -2,7 +2,7 @@
 
 Get bcache stat from stats_total directory and dirty_data file.
 
-## Measurements
+## Metrics
 
 Meta:
 
@@ -53,10 +53,7 @@ cache_readaheads
 
 ## Configuration
 
-Using this configuration:
-
 ```toml @sample.conf
-```toml
 # Read metrics of bcache from stats_total and dirty_data
 [[inputs.bcache]]
   ## Bcache sets path

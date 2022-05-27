@@ -43,10 +43,7 @@ and to explore the exposed metrics.
 
 ## Configuration
 
-This plugin offers multiple configuration options, please review examples below for additional usage information.
-
 ```toml @sample.conf
-```toml
 # Reads metrics from DPDK applications using v2 telemetry interface.
 [[inputs.dpdk]]
   ## Path to DPDK telemetry socket. This shall point to v2 version of DPDK telemetry interface.

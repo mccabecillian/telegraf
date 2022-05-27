@@ -15,10 +15,7 @@ in `tls_allowed_cacerts`.
 
 ## Configuration
 
-This is a sample configuration for the plugin.
-
 ```toml @sample.conf
-```toml
 # Google Cloud Pub/Sub Push HTTP listener
 [[inputs.cloud_pubsub_push]]
   ## Address and port to host HTTP listener on
